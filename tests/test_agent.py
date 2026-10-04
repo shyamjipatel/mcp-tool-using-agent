@@ -43,6 +43,15 @@ def test_no_tool_answer() -> None:
     assert {schema["function"]["name"] for schema in model.schemas} == {"calculate", "get_current_time", "get_weather"}
 
 
+def test_prior_session_messages_are_in_model_context() -> None:
+    model = ScriptedModel([AIMessage(content="Following up on 72.")])
+    history = [{"role": "user", "content": "What is 24 * 3?"}, {"role": "assistant", "content": "72"}]
+    asyncio.run(AgentService(model, server.mcp).run("And double it?", history=history))
+    assert [message.content for message in model.seen_messages[0][-3:]] == [
+        "What is 24 * 3?", "72", "And double it?",
+    ]
+
+
 def test_single_tool_answer() -> None:
     model = ScriptedModel([
         call("calculate", {"expression": "125 * 24"}, "calc-1"),

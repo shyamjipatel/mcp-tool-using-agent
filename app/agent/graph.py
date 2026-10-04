@@ -52,8 +52,16 @@ class AgentService:
         self._model = model
         self._target = target if target is not None else default_target()
 
-    async def run(self, question: str, request_id: str | None = None) -> dict[str, Any]:
+    async def run(
+        self, question: str, request_id: str | None = None,
+        history: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
         request_id = request_id or str(uuid.uuid4())
+        prior_messages = [
+            HumanMessage(content=item["content"]) if item["role"] == "user" else AIMessage(content=item["content"])
+            for item in (history or [])[-20:]
+            if item["role"] in ("user", "assistant")
+        ]
         async with MCPToolClient(self._target) as client:
             bound_model = self._model.bind_tools(_tool_definitions(client.tools))
 
@@ -108,7 +116,8 @@ class AgentService:
 
             async with asyncio.timeout(90):
                 result = await graph.compile().ainvoke({
-                    "messages": [HumanMessage(content=question)], "steps": 0, "tool_count": 0, "trace": [],
+                    "messages": [*prior_messages, HumanMessage(content=question)],
+                    "steps": 0, "tool_count": 0, "trace": [],
                 })
         answer = _message_text(result["messages"][-1])
         logger.info(json.dumps({"event": "final_response", "request_id": request_id, "final_response": answer}))
