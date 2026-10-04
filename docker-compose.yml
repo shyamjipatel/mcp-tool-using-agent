@@ -21,4 +21,10 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       LLM_BASE_URL: ${LLM_BASE_URL:-}
       MCP_SERVER_URL: http://mcp-server:8001/mcp
+      DATABASE_PATH: /app/data/chat.db
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - chat-data:/app/data
+
+volumes:
+  chat-data:

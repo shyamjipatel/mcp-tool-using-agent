@@ -2,12 +2,14 @@
 
 import os
 from dataclasses import dataclass
-from typing import Literal
+from typing import Any, Literal
 
 from langchain_openai import ChatOpenAI
 
+from app.agent.demo_model import DemoModel
 
-ProviderName = Literal["huggingface", "openai", "local"]
+
+ProviderName = Literal["huggingface", "openai", "local", "demo"]
 
 
 @dataclass(frozen=True)
@@ -24,8 +26,8 @@ class Settings:
     @classmethod
     def from_env(cls) -> "Settings":
         provider = os.getenv("LLM_PROVIDER", "huggingface").lower()
-        if provider not in ("huggingface", "openai", "local"):
-            raise ValueError("LLM_PROVIDER must be huggingface, openai, or local.")
+        if provider not in ("huggingface", "openai", "local", "demo"):
+            raise ValueError("LLM_PROVIDER must be huggingface, openai, local, or demo.")
         return cls(
             llm_provider=provider,
             llm_model=os.getenv("LLM_MODEL", ""),
@@ -38,7 +40,9 @@ class Settings:
         )
 
 
-def make_model(settings: Settings) -> ChatOpenAI:
+def make_model(settings: Settings) -> Any:
+    if settings.llm_provider == "demo":
+        return DemoModel()
     if settings.llm_provider == "huggingface":
         if not settings.hf_token:
             raise ValueError("HF_TOKEN is required for the Hugging Face provider.")

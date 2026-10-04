@@ -66,8 +66,10 @@ async def app_status(settings: Settings = Depends(get_settings)) -> dict[str, An
         settings.llm_provider == "huggingface" and bool(settings.hf_token)
         or settings.llm_provider == "openai" and bool(settings.openai_api_key)
         or settings.llm_provider == "local" and bool(settings.llm_model and settings.llm_base_url)
+        or settings.llm_provider == "demo"
     )
-    return {"provider": settings.llm_provider, "model": settings.llm_model or "provider default", "configured": configured}
+    model = "Demo mode" if settings.llm_provider == "demo" else settings.llm_model or "provider default"
+    return {"provider": settings.llm_provider, "model": model, "configured": configured}
 
 
 @router.get("/tools")

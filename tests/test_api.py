@@ -20,6 +20,11 @@ def test_health_tools_and_chat() -> None:
 
     async def check() -> None:
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as client:
+            page = await client.get("/")
+            assert page.status_code == 200
+            assert "Relay — MCP Agent Workspace" in page.text
+            assert (await client.get("/assets/styles.css")).status_code == 200
+            assert (await client.get("/assets/app.js")).status_code == 200
             assert (await client.get("/health")).json() == {"status": "ok"}
             tools = (await client.get("/tools")).json()
             assert {tool["name"] for tool in tools} == {"calculate", "get_current_time", "get_weather"}
