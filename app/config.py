@@ -18,6 +18,7 @@ class Settings:
     openai_api_key: str = ""
     llm_base_url: str = ""
     mcp_server_url: str = ""
+    database_path: str = "data/chat.db"
     log_level: str = "INFO"
 
     @classmethod
@@ -32,6 +33,7 @@ class Settings:
             openai_api_key=os.getenv("OPENAI_API_KEY", ""),
             llm_base_url=os.getenv("LLM_BASE_URL", ""),
             mcp_server_url=os.getenv("MCP_SERVER_URL", ""),
+            database_path=os.getenv("DATABASE_PATH", "data/chat.db"),
             log_level=os.getenv("LOG_LEVEL", "INFO"),
         )
 
