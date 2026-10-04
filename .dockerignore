@@ -1,0 +1,8 @@
+.git
+.venv
+.env
+__pycache__
+.pytest_cache
+tests
+docs
+MCP_TOOL_USING_AGENT_PLAN.md

@@ -31,6 +31,8 @@ def test_discovery_and_tools(monkeypatch) -> None:
             assert weather_result.structured_content["temperature_c"] == 27
             resources = await client.list_resources()
             assert any(str(item.uri) == "company://policies/support" for item in resources.resources)
+            policy = await client.read_resource("company://policies/support")
+            assert "Demo support policy" in policy.contents[0].text
 
     asyncio.run(check())
 

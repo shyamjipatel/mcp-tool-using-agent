@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 470" role="img" aria-labelledby="title desc">
+  <title id="title">MCP tool-using agent demo flow</title>
+  <desc id="desc">An illustrated run from a user request through weather and calculator MCP tools to a final answer.</desc>
+  <rect width="1100" height="470" rx="22" fill="#101827"/>
+  <rect x="24" y="24" width="1052" height="422" rx="15" fill="#182438" stroke="#33445e" stroke-width="2"/>
+  <circle cx="51" cy="52" r="7" fill="#ff6b6b"/><circle cx="74" cy="52" r="7" fill="#ffd166"/><circle cx="97" cy="52" r="7" fill="#06d6a0"/>
+  <text x="550" y="58" text-anchor="middle" fill="#dce9fa" font-family="ui-monospace, Menlo, monospace" font-size="18">MCP Tool-Using Agent · example trace</text>
+  <line x1="24" y1="80" x2="1076" y2="80" stroke="#33445e"/>
+  <text x="55" y="122" fill="#92b4d5" font-family="ui-monospace, Menlo, monospace" font-size="17">USER</text>
+  <text x="190" y="122" fill="#f5f8ff" font-family="ui-monospace, Menlo, monospace" font-size="17">Convert Bangalore's current temperature to Fahrenheit.</text>
+  <text x="55" y="179" fill="#7ee0ba" font-family="ui-monospace, Menlo, monospace" font-size="17">LLM → MCP</text>
+  <text x="190" y="179" fill="#f5f8ff" font-family="ui-monospace, Menlo, monospace" font-size="17">get_weather({"city": "Bangalore"})</text>
+  <text x="55" y="218" fill="#ddc184" font-family="ui-monospace, Menlo, monospace" font-size="17">RESULT</text>
+  <text x="190" y="218" fill="#f5f8ff" font-family="ui-monospace, Menlo, monospace" font-size="17">{"temperature_c": 27, "condition": "Partly cloudy"}</text>
+  <text x="55" y="275" fill="#7ee0ba" font-family="ui-monospace, Menlo, monospace" font-size="17">LLM → MCP</text>
+  <text x="190" y="275" fill="#f5f8ff" font-family="ui-monospace, Menlo, monospace" font-size="17">calculate({"expression": "27 * 9 / 5 + 32"})</text>
+  <text x="55" y="314" fill="#ddc184" font-family="ui-monospace, Menlo, monospace" font-size="17">RESULT</text>
+  <text x="190" y="314" fill="#f5f8ff" font-family="ui-monospace, Menlo, monospace" font-size="17">{"result": 80.6}</text>
+  <line x1="55" y1="342" x2="1045" y2="342" stroke="#33445e"/>
+  <text x="55" y="385" fill="#92b4d5" font-family="ui-monospace, Menlo, monospace" font-size="17">ANSWER</text>
+  <text x="190" y="385" fill="#f5f8ff" font-family="ui-monospace, Menlo, monospace" font-size="17">27°C is 80.6°F.</text>
+  <text x="190" y="417" fill="#7187a4" font-family="ui-monospace, Menlo, monospace" font-size="13">Illustrative deterministic test data · live weather varies</text>
+</svg>

@@ -1,5 +1,6 @@
 """Run the calculator MCP server over stdio."""
 
+import os
 from typing import Annotated
 
 from mcp.server import MCPServer
@@ -10,7 +11,7 @@ from mcp_server.calculator import CalculationError, CalculationResult, evaluate
 from mcp_server.time_tool import TimeError, TimeResult, get_time
 from mcp_server.weather import OpenMeteoWeatherProvider, WeatherError, WeatherProvider, WeatherResult
 
-mcp = MCPServer("Calculator Demo")
+mcp = MCPServer("Tool-Using Agent Demo")
 weather_provider: WeatherProvider = OpenMeteoWeatherProvider()
 
 
@@ -54,4 +55,10 @@ def support_policy() -> str:
 
 
 if __name__ == "__main__":
-    mcp.run()
+    transport = os.getenv("MCP_TRANSPORT", "stdio")
+    if transport == "stdio":
+        mcp.run()
+    elif transport == "streamable-http":
+        mcp.run(transport="streamable-http", host="0.0.0.0", port=8001)
+    else:
+        raise ValueError("MCP_TRANSPORT must be stdio or streamable-http.")

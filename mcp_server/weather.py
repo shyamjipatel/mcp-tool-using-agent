@@ -43,12 +43,16 @@ def describe_weather(code: int) -> str:
 
 
 class OpenMeteoWeatherProvider:
+    def __init__(self, transport: httpx.AsyncBaseTransport | None = None) -> None:
+        self._transport = transport
+
     async def get_weather(self, city: str) -> WeatherResult:
+        search_name = "Bengaluru, India" if city.casefold() == "bangalore" else city
         try:
-            async with httpx.AsyncClient(timeout=5.0) as client:
+            async with httpx.AsyncClient(timeout=5.0, transport=self._transport) as client:
                 location_response = await client.get(
                     "https://geocoding-api.open-meteo.com/v1/search",
-                    params={"name": city, "count": 1, "language": "en", "format": "json"},
+                    params={"name": search_name, "count": 1, "language": "en", "format": "json"},
                 )
                 location_response.raise_for_status()
                 locations = location_response.json().get("results") or []

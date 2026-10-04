@@ -79,3 +79,13 @@ def test_invalid_arguments_and_tool_failure(monkeypatch) -> None:
     assert "Invalid arguments" in result["tool_calls"][0]["error"]
     assert "unavailable" in result["tool_calls"][1]["error"]
     assert "could not" in result["answer"]
+
+
+def test_model_step_limit_stops_repeated_tool_calls() -> None:
+    model = ScriptedModel([
+        call("calculate", {"expression": "1 + 1"}, f"calc-{index}")
+        for index in range(6)
+    ])
+    result = asyncio.run(AgentService(model, server.mcp).run("Keep calculating."))
+    assert len(result["tool_calls"]) == 5
+    assert "step limit" in result["answer"]
