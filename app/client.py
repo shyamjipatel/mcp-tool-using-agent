@@ -3,40 +3,25 @@
 import argparse
 import asyncio
 import json
-import sys
+import os
 from typing import Any
 
-from mcp import Client, StdioServerParameters
-from mcp.types import Tool
-
-
-async def discover_tools(client: Client) -> list[Tool]:
-    tools: list[Tool] = []
-    cursor: str | None = None
-    while True:
-        page = await client.list_tools(cursor=cursor)
-        tools.extend(page.tools)
-        if page.next_cursor is None:
-            return tools
-        cursor = page.next_cursor
+from app.mcp.client import MCPToolClient, default_target
 
 
 async def run(expression: str) -> dict[str, Any]:
-    server = StdioServerParameters(command=sys.executable, args=["-m", "mcp_server.server"])
-    async with Client(server) as client:
-        tools = await discover_tools(client)
-        tool = next((item for item in tools if item.name == "calculate"), None)
+    async with MCPToolClient(default_target(os.getenv("MCP_SERVER_URL"))) as client:
+        tool = next((item for item in client.tools if item.name == "calculate"), None)
         if tool is None:
             raise RuntimeError("The server did not advertise a calculate tool.")
-        result = await client.call_tool(tool.name, {"expression": expression})
+        result = await client.invoke(tool.name, {"expression": expression})
         return {
             "tool": tool.name,
             "input_schema": tool.input_schema,
             "output_schema": tool.output_schema,
             "is_error": result.is_error,
-            "result": result.structured_content,
-            "error": next((block.text for block in result.content if block.type == "text"), None)
-            if result.is_error else None,
+            "result": result.result,
+            "error": result.error,
         }
 
 
