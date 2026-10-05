@@ -84,6 +84,8 @@ LLM -> final answer
 
 The numbers above are a deterministic test example, not a live forecast. Other covered paths are a calculator question, a timezone question, a no-tool MCP explanation, invalid arguments, and a failing weather provider. `/chat` returns an `answer`, `request_id`, and a `tool_calls` trace with arguments, results or errors, and durations.
 
+![ToolMesh conversation showing a weather answer and two MCP tool calls](docs/conversation.png)
+
 ## Configuration
 
 Copy `.env.example` to `.env` for local use. `.env` is ignored by Git. Environment variables are read at startup or request time; the API does not automatically parse `.env` outside Docker Compose.
