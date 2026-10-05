@@ -1,6 +1,6 @@
-# MCP Tool-Using Agent
+# ToolMesh
 
-An AI agent with a multi-conversation chat workspace. It discovers MCP tools at runtime, calls them through an MCP client, and uses their results in a bounded LangGraph workflow. Conversations and tool traces are saved in SQLite.
+ToolMesh is an AI agent with a multi-conversation chat workspace. It discovers MCP tools at runtime, calls them through an MCP client, and uses their results in a bounded LangGraph workflow. Conversations and tool traces are saved in SQLite.
 
 ![Illustrated multi-step tool run](docs/demo-flow.svg)
 

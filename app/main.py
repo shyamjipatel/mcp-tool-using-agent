@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="MCP Tool-Using Agent", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="ToolMesh — MCP Agent Workspace", version="0.1.0", lifespan=lifespan)
 app.include_router(router)
 WEB_DIR = Path(__file__).parent / "web"
 app.mount("/assets", StaticFiles(directory=WEB_DIR), name="assets")

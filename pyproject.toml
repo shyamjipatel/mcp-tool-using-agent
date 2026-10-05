@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mcp-tool-using-agent"
 version = "0.1.0"
-description = "A focused MCP tool discovery and execution demo"
+description = "ToolMesh, a multi-conversation MCP tool-using agent"
 requires-python = ">=3.12"
 dependencies = [
     "mcp==2.3.0",

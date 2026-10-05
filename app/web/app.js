@@ -6,7 +6,16 @@ const welcome = $("#welcome");
 const contentArea = $("#content-area");
 const input = $("#message-input");
 const sendButton = $("#send-button");
+const storageKeys = { lastSession: "toolmesh:last-session", theme: "toolmesh:theme" };
 let toastTimer;
+
+function storedPreference(key, previousKey) {
+  const current = localStorage.getItem(key);
+  if (current !== null) return current;
+  const previous = localStorage.getItem(previousKey);
+  if (previous !== null) localStorage.setItem(key, previous);
+  return previous;
+}
 
 function icon(name) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -130,8 +139,8 @@ function renderMessages() {
     const wrapper = el("article", `message ${message.role}`);
     const body = el("div", "message-body");
     if (message.role === "assistant") {
-      wrapper.append(el("span", "assistant-avatar", "R"));
-      body.append(el("div", "message-label", "Relay"));
+      wrapper.append(el("span", "assistant-avatar", "M"));
+      body.append(el("div", "message-label", "ToolMesh"));
     }
     body.append(el("div", "message-content", message.content));
     if (message.role === "assistant") {
@@ -167,7 +176,7 @@ async function openSession(id) {
     state.currentId = id;
     state.messages = data.messages;
     state.menuId = null;
-    localStorage.setItem("relay:last-session", id);
+    localStorage.setItem(storageKeys.lastSession, id);
     renderSessions();
     renderMessages();
     closeSidebar();
@@ -181,7 +190,7 @@ async function newSession() {
     state.currentId = session.id;
     state.messages = [];
     state.menuId = null;
-    localStorage.setItem("relay:last-session", session.id);
+    localStorage.setItem(storageKeys.lastSession, session.id);
     await loadSessions();
     renderMessages();
     closeSidebar();
@@ -235,7 +244,7 @@ function openDelete(session) {
 
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  localStorage.setItem("relay:theme", theme);
+  localStorage.setItem(storageKeys.theme, theme);
   $("#theme-toggle use").setAttribute("href", theme === "dark" ? "#i-sun" : "#i-moon");
   $("#theme-toggle").setAttribute("aria-label", theme === "dark" ? "Use light theme" : "Use dark theme");
 }
@@ -303,6 +312,7 @@ $("#confirm-delete").addEventListener("click", async () => {
     if (state.actionId === state.currentId) {
       state.currentId = null;
       state.messages = [];
+      localStorage.removeItem(storageKeys.lastSession);
       localStorage.removeItem("relay:last-session");
     }
     $("#delete-dialog").close();
@@ -312,11 +322,11 @@ $("#confirm-delete").addEventListener("click", async () => {
   } catch (error) { toast(error.message); }
 });
 
-setTheme(localStorage.getItem("relay:theme") || "light");
+setTheme(storedPreference(storageKeys.theme, "relay:theme") || "light");
 updateComposer();
 Promise.allSettled([loadSessions(), loadStatus()]).then(async (results) => {
   if (results[0].status === "rejected") { toast("Could not load conversations."); return; }
-  const remembered = localStorage.getItem("relay:last-session");
+  const remembered = storedPreference(storageKeys.lastSession, "relay:last-session");
   if (remembered && state.sessions.some((session) => session.id === remembered)) await openSession(remembered);
   else renderMessages();
 });

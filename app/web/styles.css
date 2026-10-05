@@ -15,7 +15,7 @@ svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-linecap:round;st
 .sidebar{width:282px;min-width:282px;display:flex;flex-direction:column;background:var(--sidebar);color:var(--sidebar-ink);border-right:1px solid var(--sidebar-line);z-index:5}
 .sidebar-top{padding:27px 17px 19px}
 .brand-row{display:flex;align-items:center;gap:11px;padding:0 9px 27px}
-.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,#81dec3,#5ea7d5);box-shadow:0 6px 16px rgba(75,212,182,.14);color:#0f283e;font-size:24px;font-weight:850;letter-spacing:-.12em;padding-right:4px}
+.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,#81dec3,#5ea7d5);box-shadow:0 6px 16px rgba(75,212,182,.14);color:#0f283e;font-size:23px;font-weight:850;letter-spacing:-.06em}
 .brand-name{display:flex;flex-direction:column;line-height:1.08}
 .brand-name strong{font-size:23px;letter-spacing:-.07em;font-weight:780}
 .brand-name small{margin-top:5px;color:#84a8b9;font-size:9px;font-weight:750;letter-spacing:.15em}
@@ -90,7 +90,7 @@ svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-linecap:round;st
 .message.user{justify-content:flex-end}
 .message-body{min-width:0;max-width:calc(100% - 50px)}
 .message.user .message-body{max-width:min(650px,88%)}
-.assistant-avatar{display:grid;place-items:center;flex:none;width:31px;height:31px;border-radius:10px;background:#153c51;color:#9de9d0;font-size:18px;font-weight:850;letter-spacing:-.12em;padding-right:3px;box-shadow:0 4px 10px rgba(24,70,91,.12)}
+.assistant-avatar{display:grid;place-items:center;flex:none;width:31px;height:31px;border-radius:10px;background:#153c51;color:#9de9d0;font-size:17px;font-weight:850;letter-spacing:-.06em;box-shadow:0 4px 10px rgba(24,70,91,.12)}
 .message-label{margin:2px 0 9px;color:#526076;font-size:12px;font-weight:730}
 .message-content{color:var(--ink);font-size:14px;line-height:1.78;white-space:pre-wrap;overflow-wrap:anywhere}
 .message.user .message-content{padding:12px 17px;border:1px solid #dbe6f1;border-radius:16px 16px 4px 16px;background:#eaf2fa;line-height:1.65}
