@@ -2,7 +2,7 @@
 
 ToolMesh is an AI agent with a multi-conversation chat workspace. It discovers MCP tools at runtime, calls them through an MCP client, and uses their results in a bounded LangGraph workflow. Conversations and tool traces are saved in SQLite.
 
-![Illustrated multi-step tool run](docs/demo-flow.svg)
+![ToolMesh chat workspace with MCP tool suggestions](docs/toolmesh-ui.png)
 
 ## What this demonstrates
 
@@ -68,6 +68,8 @@ The conversation API includes `GET/POST /api/sessions`, `GET/PATCH/DELETE /api/s
 Weather uses [Open-Meteo geocoding](https://open-meteo.com/en/docs/geocoding-api) and [current weather](https://open-meteo.com/en/docs). It has a five-second timeout per HTTP request and a replaceable provider interface. `Bangalore` resolves to `Bengaluru, India`; for other ambiguous names, include the country. The server also exposes a synthetic static resource at `company://policies/support` to show how MCP resources differ from callable tools.
 
 ## Example workflows
+
+![Illustrated multi-step tool run](docs/demo-flow.svg)
 
 The agent receives the tool descriptions and schemas returned by `tools/list`. It may answer without a tool or issue one or more tool calls. A multi-step request can proceed as follows:
 
