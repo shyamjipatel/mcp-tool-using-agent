@@ -13,20 +13,11 @@ ToolMesh is an AI agent with a multi-conversation chat workspace. It discovers M
 - A responsive chat workspace supports multiple saved conversations, search, rename, delete, tool trace inspection, and a dark theme.
 - A deterministic offline demo mode lets reviewers try calculator, time, and weather tool flows without an LLM token.
 
+## Architecture
+
 MCP gives the host a standard way to discover capabilities. The host contains the MCP client and agent; the server owns tool implementations. Adding a server tool does not require adding its Python function to the agent.
 
-```mermaid
-flowchart LR
-    U[Chat workspace] --> A[FastAPI host]
-    A --> G[LangGraph agent]
-    A --> D[(SQLite conversations)]
-    G --> L[Configurable LLM]
-    G --> C[MCP client]
-    C <-->|stdio locally / HTTP in Docker| S[MCP server]
-    S --> T[Calculator]
-    S --> Z[Current time]
-    S --> W[Weather provider]
-```
+![ToolMesh MCP architecture showing the chat workspace, FastAPI host, LangGraph agent, model, SQLite store, MCP client, MCP server, and weather provider](docs/mcp-architecture.svg)
 
 ## Quick start
 
