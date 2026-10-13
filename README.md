@@ -19,6 +19,8 @@ MCP gives the host a standard way to discover capabilities. The host contains th
 
 ![ToolMesh MCP architecture showing the chat workspace, FastAPI host, LangGraph agent, model, SQLite store, MCP client, MCP server, and weather provider](docs/mcp-architecture.svg)
 
+[Download the architecture diagram as PNG](docs/mcp-architecture.png).
+
 ## Quick start
 
 Requires Python 3.12 or newer. The default LLM provider is Hugging Face Inference Providers. Set `HF_TOKEN` to ask open-ended questions. To try the portfolio demo without a token, set `LLM_PROVIDER=demo`; demo mode responds to the example prompts and uses real MCP tools.
